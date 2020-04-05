@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -25,6 +26,18 @@ public class MainController {
     public ModelAndView home(){
         ModelAndView mav = new ModelAndView();
         List<Item> items = itemService.findAll();
+        items.sort(new Comparator<Item>() {
+            @Override
+            public int compare(Item a, Item b) {
+                if (a.getAvailable() && !b.getAvailable()){
+                    return -1;
+                } else if (!a.getAvailable() && b.getAvailable()){
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        });
         mav.addObject("title", "Shop");
         mav.addObject("items", items);
         mav.setViewName("main");

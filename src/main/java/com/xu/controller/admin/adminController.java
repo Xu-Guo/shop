@@ -5,8 +5,6 @@ import com.xu.entity.ShopInfo;
 import com.xu.service.ItemService;
 import com.xu.service.ShopInfoService;
 import com.xu.util.DateUtil;
-import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
