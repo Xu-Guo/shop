@@ -23,5 +23,6 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
 
-imageFilePath: /Users/xguo/shop/src/main/webapp/static/itemImages/
-#imageFilePath: /home/ubuntu/shop/shop/src/main/webapp/static/itemImages/
+
+#imageFilePath: /Users/xguo/shop/src/main/webapp/static/itemImages/
+imageFilePath: /home/ubuntu/shop/itemImages

@@ -32,8 +32,7 @@ public class adminController {
     @Resource
     private ShopInfoService shopInfoService;
 
-    @Value("${imageFilePath}")
-    private String imageFilePath;
+    private String imageFilePath = "/home/ubuntu/shop/itemImages/";
 
     @RequestMapping("/item/ckeditorUpload")
     public String ckeditorUpload(@RequestParam("upload")MultipartFile file, String CKEditorFuncNum) throws Exception{
@@ -46,10 +45,10 @@ public class adminController {
         System.out.println(imageFilePath);
         System.out.println(newFileName);
         System.out.println(CKEditorFuncNum);
-        FileUtils.copyInputStreamToFile(file.getInputStream(), new File(imageFilePath + newFileName));
+        file.transferTo(new File(imageFilePath + newFileName));
         StringBuffer sb = new StringBuffer();
         sb.append("<script type=\"text/javascript\">")
-            .append("window.parent.CKEDITOR.tools.callFunction(" + CKEditorFuncNum + ",'" + "../static/itemImage/" + newFileName + "','')")
+            .append("window.parent.CKEDITOR.tools.callFunction(" + CKEditorFuncNum + ",'" + "/itemImages/" + newFileName + "','')")
             .append("</script>");
         return sb.toString();
     }
@@ -68,7 +67,7 @@ public class adminController {
             String fileName = file.getOriginalFilename();
             String suffixName = fileName.substring(fileName.lastIndexOf("."));
             String newFileName = DateUtil.getCurrentDateStr() + suffixName;
-            FileUtils.copyInputStreamToFile(file.getInputStream(), new File(imageFilePath + newFileName));
+            file.transferTo(new File(imageFilePath + newFileName));
             item.setImage(newFileName);
         }
         item.setLastUpdate(System.currentTimeMillis());
