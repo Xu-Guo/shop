@@ -1,4 +1,34 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<style>
+    @media(min-width: 768px) {
+        .flexContainer{
+            /*border: 1px #3f3f3f solid;*/
+            width: 90%;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+.infoBox{
+    margin: auto;
+    text-align: center
+}
+.center{
+    display: block;
+    margin: auto;
+    width: 50%;
+}
+
+.flexContainer div{
+    border: 1px #ccc solid;
+    padding: 10px;
+}
+.itemBox{
+    max-width: 280px;
+    flex: 1 0 22%;
+    margin: 18px;
+}
+</style>
 <head>
     <meta charset="UTF-8"></meta>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"></meta>
@@ -6,8 +36,30 @@
     <title th:text="${title}">Home</title>
 </head>
 <body>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus illum impedit magnam molestias quisquam quod saepe, sapiente sint! Consequuntur dicta error iure magnam necessitatibus neque quaerat, ratione rem rerum totam.</p>
-
+<div class="infoBox" id="shopName">
+    <div ><h2 th:text="${shopName}">商店名字</h2></div>
+    <div style="width: 70%;margin: auto; text-align: center">
+        <p th:utext="${shopContent}" ></p>
+    </div>
+</div>
+<div style="text-align: center;margin: auto" id="shopInfo">
+    <label for="contactInfo"><strong>联系方式</strong>:</label>
+    <span id="contactInfo" th:text="${shopContact}"></span>
+</div>
+<!--<div id="weChatInfo" style="margin: 20px">-->
+<!--    <h4 style="text-align: center">扫码加微信</h4>-->
+<!--    <img class="center" src="/static/image/cat.jpg" style="width: 150px !important; height: 150px !important;" alt=""/>-->
+<!--</div>-->
+<div class="flexContainer" id="itemsContainer" >
+    <div class="itemBox" th:each="item: ${items}">
+        <img class="center" th:src="@{${'/static/itemImages/' + item.image }}"  style="width: 150px !important; height: 150px !important;" alt=""/>
+        <h4 th:text="${item.name}"></h4>
+        <h5 th:text="${item.title}"></h5>
+        <p th:utext="${item.content}"></p>
+        <span th:if="${item.available}">有货</span>
+        <span th:if="${!item.available}">无货</span>
+    </div>
+</div>
 
 
 <script type="text/javascript" src="/3rdparty/jquery-2.1.0.min.js"></script>
@@ -16,6 +68,5 @@
 <script type="text/javascript" src="/3rdparty/lodash.ext.js"></script>
 <script type="text/javascript" src="/3rdparty/knockout-2.2.1.min.js"></script>
 
-<script type="text/javascript" src="/js/main.js"></script>
 </body>
 </html>

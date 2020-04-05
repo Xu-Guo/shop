@@ -13,16 +13,19 @@ public class Item {
     @Column(length = 500)
     private String name;
 
+    @Column(length = 500)
+    private String title;
+
     @Lob
     @Column(columnDefinition = "TEXT")
     private String content;
 
     @Column(length = 500)
-    private String imageName;
+    private String image;
 
-    private Date lastUpdate;
+    private Long lastUpdate;
 
-    private Integer count;
+    private Boolean available;
 
     public Integer getId() {
         return id;
@@ -48,27 +51,35 @@ public class Item {
         this.content = content;
     }
 
-    public String getImageName() {
-        return imageName;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public Date getLastUpdate() {
+    public Long getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
+    public void setLastUpdate(Long lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
-    public Integer getCount() {
-        return count;
+    public Boolean getAvailable() {
+        return available;
     }
 
-    public void setCount(Integer count) {
-        this.count = count;
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

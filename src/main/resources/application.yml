@@ -1,16 +1,27 @@
 server:
   servlet:
     context-path: /
-  port: 8080
+  port: 80
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/shop?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/shop?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: root
   jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     hibernate:
       ddl-auto: update
-  thymeleaf:
-    cache: false
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+imageFilePath: /Users/xguo/shop/src/main/webapp/static/itemImages/
+#imageFilePath: /home/ubuntu/shop/shop/src/main/webapp/static/itemImages/

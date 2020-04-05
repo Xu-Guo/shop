@@ -13,7 +13,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("admin")
-                .password("admin")
+                .password("{noop}admin")
                 .roles("ADMIN");
     }
 
@@ -21,12 +21,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().disable().headers().disable()
                 .authorizeRequests()
-                .antMatchers("/","/static/**").permitAll()
+                .antMatchers("/", "/home", "/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login") //request login api
-                .defaultSuccessUrl("/admin")
+                .successForwardUrl("/admin")
                 .permitAll()
                 .and()
                 .logout()

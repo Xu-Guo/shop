@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>商品修改页面</title>
+    <link rel="stylesheet" type="text/css" href="../static/jquery-easyui-1.3.3/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../static/jquery-easyui-1.3.3/themes/icon.css" />
+    <script type="text/javascript" src="../static/jquery-easyui-1.3.3/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../static/jquery-easyui-1.3.3/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../static/ckeditor/ckeditor.js"></script>
+
+    <script type="text/javascript">
+        function submitData(){
+            $("#fm").form("submit", {
+                url: "/admin/item/save",
+                onSubmit: function(){
+                    var content = CKEDITOR.instances.content.getData();
+                    if (content === ""){
+                        $.messager.alert("System", "内容不能为空");
+                        return false;
+                    }
+                    return $(this).form("validate");
+                },
+                success: function(result){
+                    result = eval('('+ result + ')');
+                    if(result.success){
+                        $.messager.alert("System", "保存成功");
+                        resetForm();
+                    } else {
+                        $.messager.alert("System", "保存失败");
+                    }
+                }
+            })
+        }
+
+        function resetForm(){
+            $("#name").val("");
+            $("#title").val("");
+            $("#imageFile").val("");
+            $("#unavailable").prop("checked", true);
+            CKEDITOR.instances.content.setData("");
+        }
+    </script>
+
+</head>
+<body style="margin: 10px">
+<div id="p" class="easyui-panel" title="修改商品" style="padding: 10px">
+    <form action="" id="fm" method="post" enctype="multipart/form-data">
+        <table style="border-collapse: separate; border-spacing: 5px">
+            <tr>
+                <td style="width: 80px">商品名称</td>
+                <td>
+                    <input type="text" id="name" name="name" style="width: 400px" class="easyui-validatebox" required="true" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 80px">标题</td>
+                <td>
+                    <input type="text" id="title" name="title" style="width: 400px" class="easyui-validatebox" required="true" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 80px">图片</td>
+                <td>
+                    <input type="hidden" id="image" name="image"/>
+                    <input type="file" id="imageFile" name="imageFile"/>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 80px">有货</td>
+                <td>
+                    <input type="radio" id="available" value="true" name="available" >是&nbsp;
+                    <input type="radio" id="unavailable" value="false" name="available" checked>否&nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 80px; vertical-align: top">商品介绍</td>
+                <td>
+                    <textarea name="content" id="content" cols="80" rows="30"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="hidden" id="id" name="id"/>
+                    <a href="javascript: submitData()" class="easyui-linkbutton" data-options="iconCls:'icon-submit'">发布</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    CKEDITOR.replace("content");
+    function getQueryParam(paramName){
+        var reg = new RegExp("(^|&)" + paramName + "=([^&]*)(&|$)", "i");
+        console.log(window.location.search);
+        var url = decodeURI(decodeURI(window.location.search));
+        console.log(url);
+        var r = url.substr(1).match(reg);
+        if(r != null){
+            return unescape(r[2]);
+        }
+        return null;
+    }
+
+    var id = getQueryParam("id");
+    console.log("id:");
+    console.log(id);
+    $.get("/admin/item/" + id, function(result){
+        console.log(result);
+        $("#id").val(result.id);
+        $("#name").val(result.name);
+        $("#title").val(result.title);
+        $("#image").val(result.image);
+        if(result.available){
+            $("#available").prop("checked", true);
+        } else {
+            $("#unavailable").prop("checked", true);
+        }
+        CKEDITOR.instances.content.setData(result.content);
+    });
+</script>
+</body>
+</html>
