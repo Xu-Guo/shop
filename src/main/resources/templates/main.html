@@ -52,7 +52,7 @@
 <!--</div>-->
 <div class="flexContainer" id="itemsContainer" >
     <div class="itemBox" th:each="item: ${items}">
-        <img class="center" th:src="@{${'/static/' + item.image }}"  style="width: 150px !important; height: 150px !important;" alt=""/>
+        <img class="center" th:src="@{${'/static/itemImages' + item.image }}"  style="width: 150px !important; height: 150px !important;" alt=""/>
         <h4 th:text="${item.name}"></h4>
         <h5 th:text="${item.title}"></h5>
         <p th:utext="${item.content}"></p>
